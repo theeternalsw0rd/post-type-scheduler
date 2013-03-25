@@ -1,0 +1,5 @@
+This plugin will allow for scheduling images to appear in a slideshow which can be inserted into a post/page and updated automatically with ajax. The primary purpose is for kiosk systems but should be compatible with normal website usage as well.
+
+For segmented control, we aim to utilize post types and roles to allow for multiple slideshows to be controllable by different people. The idea would be to create a role and at the same time create the post type for that role. Only those within the role would have access to that post type (plus admins and superadmins).
+
+If the slideshow is only a single image, it should remain static, and if there are no images, it should be set to display:none.
