@@ -46,60 +46,15 @@ class PostTypeScheduler {
 		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ) );
 	
-		// Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
-		register_uninstall_hook( __FILE__, array( $this, 'uninstall' ) );
-		
-	    /*
-	     * TODO:
-	     * Define the custom functionality for your plugin. The first parameter of the
-	     * add_action/add_filter calls are the hooks into which your code should fire.
-	     *
-	     * The second parameter is the function name located within this class. See the stubs
-	     * later in the file.
-	     *
-	     * For more information: 
-	     * http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
-	     */
-	    add_action( 'TODO', array( $this, 'action_method_name' ) );
-	    add_filter( 'TODO', array( $this, 'filter_method_name' ) );
+		add_action( 'add_meta_boxes', array( $this, 'register_meta_boxes' ) );
 
 	} // end constructor
 	
-	/**
-	 * Fired when the plugin is activated.
-	 *
-	 * @param	boolean	$network_wide	True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog 
-	 */
-	public function activate( $network_wide ) {
-		// TODO:	Define activation functionality here
-	} // end activate
-	
-	/**
-	 * Fired when the plugin is deactivated.
-	 *
-	 * @param	boolean	$network_wide	True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog 
-	 */
-	public function deactivate( $network_wide ) {
-		// TODO:	Define deactivation functionality here		
-	} // end deactivate
-	
-	/**
-	 * Fired when the plugin is uninstalled.
-	 *
-	 * @param	boolean	$network_wide	True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog 
-	 */
-	public function uninstall( $network_wide ) {
-		// TODO:	Define uninstall functionality here		
-	} // end uninstall
-
 	/**
 	 * Loads the plugin text domain for translation
 	 */
 	public function plugin_textdomain() {
 	
-		// TODO: replace "plugin-name-locale" with a unique value for your plugin
 		$domain = 'post-type-scheduler';
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
         load_textdomain( $domain, WP_LANG_DIR.'/'.$domain.'/'.$domain.'-'.$locale.'.mo' );
@@ -112,8 +67,7 @@ class PostTypeScheduler {
 	 */
 	public function register_admin_styles() {
 	
-		// TODO:	Change 'plugin-name' to the name of your plugin
-		wp_enqueue_style( 'plugin-name-admin-styles', plugins_url( 'plugin-name/css/admin.css' ) );
+		wp_enqueue_style( 'post-type-scheduler-admin-styles', plugins_url( 'post-type-scheduler/css/admin.css' ) );
 	
 	} // end register_admin_styles
 
@@ -122,8 +76,7 @@ class PostTypeScheduler {
 	 */	
 	public function register_admin_scripts() {
 	
-		// TODO:	Change 'plugin-name' to the name of your plugin
-		wp_enqueue_script( 'plugin-name-admin-script', plugins_url( 'plugin-name/js/admin.js' ) );
+		wp_enqueue_script( 'post-type-scheduler-admin-script', plugins_url( 'post-type-scheduler/js/admin.js' ) );
 	
 	} // end register_admin_scripts
 	
@@ -131,30 +84,23 @@ class PostTypeScheduler {
 	 * Core Functions
 	 *---------------------------------------------*/
 	
-	/**
- 	 * NOTE:  Actions are points in the execution of a page or process
-	 *        lifecycle that WordPress fires.
-	 *
-	 *		  WordPress Actions: http://codex.wordpress.org/Plugin_API#Actions
-	 *		  Action Reference:  http://codex.wordpress.org/Plugin_API/Action_Reference
-	 *
-	 */
-	function action_method_name() {
-    	// TODO:	Define your action method here
-	} // end action_method_name
-	
-	/**
-	 * NOTE:  Filters are points of execution in which WordPress modifies data
-	 *        before saving it or sending it to the browser.
-	 *
-	 *		  WordPress Filters: http://codex.wordpress.org/Plugin_API#Filters
-	 *		  Filter Reference:  http://codex.wordpress.org/Plugin_API/Filter_Reference
-	 *
-	 */
-	function filter_method_name() {
-	    // TODO:	Define your filter method here
-	} // end filter_method_name
-  
+	 function register_meta_boxes() {
+		 $post_types = get_post_types(array('show_ui' => true));
+		 foreach($post_types as $post_type) {
+			 add_meta_box(
+				 $post_type."-schedule",
+				 $post_type.__(" Schedule", "post-type-scheduler"),
+				 array($this, 'show_schedule_box'),
+				 $post_type,
+				 'normal',
+				 'high'
+			 );
+		 }
+	 } // end register_meta_boxes
+
+	 function show_schedule_box() {
+		 echo "Meta box test";
+	 } // end show_schedule_box
 } // end class
 
 $post_type_scheduler = new PostTypeScheduler();
