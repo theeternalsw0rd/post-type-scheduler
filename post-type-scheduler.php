@@ -42,10 +42,13 @@ class PostTypeScheduler {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'plugin_textdomain' ) );
 
-		// Register admin styles and scripts
-		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ) );
-	
+		// Register admin styles and scripts and limit the scope
+		add_action( 'admin_print_styles-post.php', array( $this, 'register_admin_styles' ) );
+		add_action( 'admin_print_scripts-post.php', array( $this, 'register_admin_scripts' ) );
+		add_action( 'admin_print_styles-post-new.php', array( $this, 'register_admin_styles' ) );
+		add_action( 'admin_print_scripts-post-new.php', array( $this, 'register_admin_scripts' ) );
+
+		// Core plugin actions and filters
 		add_action( 'add_meta_boxes', array( $this, 'register_meta_boxes' ) );
 
 	} // end constructor
