@@ -46,10 +46,6 @@ class PostTypeScheduler {
 		add_action( 'admin_print_styles', array( $this, 'register_admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ) );
 	
-		// Register site styles and scripts
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_plugin_styles' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_plugin_scripts' ) );
-	
 		// Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
@@ -130,26 +126,6 @@ class PostTypeScheduler {
 		wp_enqueue_script( 'plugin-name-admin-script', plugins_url( 'plugin-name/js/admin.js' ) );
 	
 	} // end register_admin_scripts
-	
-	/**
-	 * Registers and enqueues plugin-specific styles.
-	 */
-	public function register_plugin_styles() {
-	
-		// TODO:	Change 'plugin-name' to the name of your plugin
-		wp_enqueue_style( 'plugin-name-plugin-styles', plugins_url( 'plugin-name/css/display.css' ) );
-	
-	} // end register_plugin_styles
-	
-	/**
-	 * Registers and enqueues plugin-specific scripts.
-	 */
-	public function register_plugin_scripts() {
-	
-		// TODO:	Change 'plugin-name' to the name of your plugin
-		wp_enqueue_script( 'plugin-name-plugin-script', plugins_url( 'plugin-name/js/display.js' ) );
-	
-	} // end register_plugin_scripts
 	
 	/*--------------------------------------------*
 	 * Core Functions
