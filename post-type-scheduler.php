@@ -85,13 +85,13 @@ class PostTypeScheduler {
 	 *---------------------------------------------*/
 	
 	 function register_meta_boxes() {
-		 $post_types = get_post_types(array('show_ui' => true));
+		 $post_types = get_post_types(array('show_ui' => true), 'objects');
 		 foreach($post_types as $post_type) {
 			 add_meta_box(
-				 $post_type."-schedule",
-				 $post_type.__(" Schedule", "post-type-scheduler"),
+				 $post_type->name."-schedule",
+				 $post_type->labels->singular_name.__(" Schedule", "post-type-scheduler"),
 				 array($this, 'show_schedule_box'),
-				 $post_type,
+				 $post_type->name,
 				 'normal',
 				 'high'
 			 );
