@@ -102,7 +102,7 @@ class PostTypeScheduler {
 	 } // end register_meta_boxes
 
 	 function show_schedule_box() {
-		 echo "Meta box test";
+		 include_once('views/post-schedule-metabox.php');
 	 } // end show_schedule_box
 } // end class
 
