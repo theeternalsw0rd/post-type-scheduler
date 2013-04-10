@@ -85,5 +85,7 @@
 			</div>
 		</div>
 	</div>
-	<button>Add another schedule</button>
+	<div class="insert">
+		<button>Add another schedule</button>
+	</div>
 </div>

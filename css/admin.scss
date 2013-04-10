@@ -1,0 +1,40 @@
+$header_color: #0f0f0f;
+$block_background: #ddd;
+$vert_padding: 1em;
+$horz_padding: 1em;
+
+#post-schedule-metabox {
+	/* start micro clearfix thanks http://nicolasgallagher.com/micro-clearfix-hack/ */
+	.post-type-scheduler:before {
+		content: " "; /* 1 */
+		display: table; /* 2 */
+	}
+	.post-type-scheduler:after {
+		content: " "; /* 1 */
+		display: table; /* 2 */
+		clear: both;
+	}
+	/* end micro clearfix */
+	.post-type-scheduler {
+		width: 98%;
+		padding: $vert_padding $horz_padding;
+		margin: 0 0 $vert_padding 0;
+		background: $block_background;
+		> div {
+			padding: $vert_padding $horz_padding;
+			clear: both;
+		}
+		div > div {
+			float: left;
+			width: 25%;
+		}
+	}
+	header {
+		font-size: 1.3em;
+		margin-bottom: 0.5em;
+	}
+	.insert {
+		padding: 0;
+		clear: both;
+	}
+}

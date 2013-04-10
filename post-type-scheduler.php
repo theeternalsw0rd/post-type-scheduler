@@ -70,8 +70,7 @@ class PostTypeScheduler {
 	 */
 	public function register_admin_styles() {
 	
-		wp_enqueue_style( 'post-type-scheduler-admin-styles', plugins_url( 'post-type-scheduler/css/admin.css' ) );
-	
+		wp_enqueue_style( 'post-type-scheduler-admin-styles', plugins_url( 'post-type-scheduler/css/admin.css' ), array(), '1365637668' );	
 	} // end register_admin_styles
 
 	/**
@@ -79,7 +78,7 @@ class PostTypeScheduler {
 	 */	
 	public function register_admin_scripts() {
 	
-		wp_enqueue_script( 'post-type-scheduler-admin-script', plugins_url( 'post-type-scheduler/js/admin.js' ) );
+		wp_enqueue_script( 'post-type-scheduler-admin-script', plugins_url( 'post-type-scheduler/js/admin.js' ), array(), '1365633685' );
 	
 	} // end register_admin_scripts
 	
