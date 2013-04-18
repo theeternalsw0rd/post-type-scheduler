@@ -1,5 +1,9 @@
-<div id="post-schedule-metabox">
-	<div class="post-type-scheduler" data-id="0">
+<?php 
+	if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+		die('Access denied: not an ajax request');	
+	}
+?>
+	<div class="post-type-scheduler">
 		<div class="schedule-type">
 			<header>Select Schedule Type</header>
 			<select>
@@ -85,8 +89,3 @@
 			</div>
 		</div>
 	</div>
-	<div class="insert">
-		<button>Add another schedule</button>
-	</div>
-	<div class="temp"></div>
-</div>

@@ -24,10 +24,17 @@ $horz_padding: 1em;
 			padding: $vert_padding $horz_padding;
 			clear: both;
 		}
-		div > div {
+		> div > div {
 			float: left;
 			width: 25%;
+			min-width: 250px;
 		}
+	}
+	.date-range {
+		display: none;
+	}
+	.date {
+		display: none;
 	}
 	header {
 		font-size: 1.3em;
