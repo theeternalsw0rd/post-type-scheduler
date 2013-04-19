@@ -74,7 +74,8 @@ class PostTypeScheduler {
 	 */	
 	public function register_admin_scripts() {
 		wp_enqueue_script('jquery-ui','https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/jquery-ui.min.js');
-		wp_enqueue_script('post-type-scheduler-admin-script', plugins_url('post-type-scheduler/js/admin.js'), array('jquery-ui'), '1366324538');
+		wp_enqueue_script('json2', plugins_url('post-type-scheduler/js/json2.min.js'), array(), '1366391097');
+		wp_enqueue_script('post-type-scheduler-admin-script', plugins_url('post-type-scheduler/js/admin.js'), array('jquery-ui', 'json2'), '1366399308');
 	} // end register_admin_scripts
 	
 	/*--------------------------------------------*
