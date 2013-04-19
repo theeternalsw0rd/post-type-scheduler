@@ -1,14 +1,14 @@
-var scheduler_json = {sched_array:[]};
+var scheduler_json = {schedule_array:[]};
 function update_scheduler_json($root, update_type, index) {
 	var update_type = typeof update_type !== 'undefined' ? update_type : 'insert';
 	var $ = jQuery;
 	if(update_type == 'delete') {
-		if(scheduler_json.sched_array.length == 1) {
-			scheduler_json.sched_array = [];
+		if(scheduler_json.schedule_array.length == 1) {
+			scheduler_json.schedule_array = [];
 			$metabox.find('.post-scheduler-json').val('');
 		}
 		else {
-			scheduler_json.sched_array.splice(index, 1);
+			scheduler_json.schedule_array.splice(index, 1);
 			$metabox.find('.post-scheduler-json').val(JSON.stringify(scheduler_json));
 		}
 	}
@@ -44,14 +44,14 @@ function update_scheduler_json($root, update_type, index) {
 	var stop_time = stop_hour + ':' + $root.find('.stop-time .minute option:selected').val();
 	var time = start_time + ';' + stop_time;
 	if(update_type == 'insert') {
-		scheduler_json.sched_array.push({
+		scheduler_json.schedule_array.push({
 			"schedule_type": schedule_type,
 			"schedule_type_data": schedule_type_data,
 			"time": time
 		});
 	}
 	if(update_type == 'update') {
-		scheduler_json.sched_array[index] = {
+		scheduler_json.schedule_array[index] = {
 			"schedule_type": schedule_type,
 			"schedule_type_data": schedule_type_data,
 			"time": time
