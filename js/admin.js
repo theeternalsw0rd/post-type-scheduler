@@ -87,7 +87,7 @@ jQuery(document).ready(function($) {
 			e.preventDefault();
 			var $this = $(e.target);
 			var index = $metabox.find('.post-type-scheduler').length;
-			var $scheduler = $(scheduler_html).attr('data-id', index).insertBefore($this);
+			var $scheduler = $(scheduler_html).attr('data-id', index).insertBefore($this.parent());
 			$scheduler.find('.datepicker').each(function() {
 				$(this).datepicker({
 					minDate: 0,
