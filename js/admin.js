@@ -32,14 +32,14 @@ function update_scheduler_json($root, update_type, index) {
 	}
 	var start_hour = $root.find('.start-time .hour option:selected').val();
 	var start_ampm = $root.find('.start-time .ampm option:selected').val();
-	if(start_ampm == 'pm') {
-		start_hour += 12;
+	if(start_ampm == '1') {
+		start_hour = Number(start_hour) + 12;
 	}
 	var start_time = start_hour + ':' + $root.find('.start-time .minute option:selected').val();
 	var stop_hour = $root.find('.stop-time .hour option:selected').val();
 	var stop_ampm = $root.find('.stop-time .ampm option:selected').val();
-	if(stop_ampm == 'pm') {
-		stop_hour += 12;
+	if(stop_ampm == '1') {
+		stop_hour = Number(stop_hour) + 12;
 	}
 	var stop_time = stop_hour + ':' + $root.find('.stop-time .minute option:selected').val();
 	var time = start_time + ';' + stop_time;
@@ -113,7 +113,7 @@ jQuery(document).ready(function($) {
 			});
 			$delete.remove();
 		});
-		$metabox.on('change', '.schedule-type select', function(e){
+		$metabox.on('change', '.schedule-type select', function(e) {
 			var $this = $(e.target);
 			var $scheduler = $this.closest('.post-type-scheduler');
 			var index = $scheduler.data('id');
@@ -122,6 +122,12 @@ jQuery(document).ready(function($) {
 				select_value += this.value;
 			});
 			$scheduler.find('.date-range, .date, .day').hide().filter('.' + select_value).show();
+			update_scheduler_json($scheduler, 'update', index);
+		});
+		$metabox.on('change', '.day select, .time select', function(e) {
+			var $this = $(e.target);
+			var $scheduler = $this.closest('.post-type-scheduler');
+			var index = $scheduler.data('id');
 			update_scheduler_json($scheduler, 'update', index);
 		});
 	});
