@@ -38,16 +38,17 @@ class PostTypeScheduler {
 	 */
 	function __construct() {
 		// Load plugin text domain
-		add_action( 'init', array( $this, 'plugin_textdomain' ) );
+		add_action('init', array($this, 'plugin_textdomain'));
 
 		// Register admin styles and scripts and limit the scope
-		add_action( 'admin_print_styles-post.php', array( $this, 'register_admin_styles' ) );
-		add_action( 'admin_print_scripts-post.php', array( $this, 'register_admin_scripts' ) );
-		add_action( 'admin_print_styles-post-new.php', array( $this, 'register_admin_styles' ) );
-		add_action( 'admin_print_scripts-post-new.php', array( $this, 'register_admin_scripts' ) );
+		add_action('admin_print_styles-post.php', array($this, 'register_admin_styles'));
+		add_action('admin_print_scripts-post.php', array($this, 'register_admin_scripts'));
+		add_action('admin_print_styles-post-new.php', array($this, 'register_admin_styles'));
+		add_action('admin_print_scripts-post-new.php', array($this, 'register_admin_scripts'));
 
 		// Core plugin actions and filters
-		add_action( 'add_meta_boxes', array( $this, 'register_meta_boxes' ) );
+		add_action('add_meta_boxes', array($this, 'register_meta_boxes'));
+		add_action('save_post', array($this, 'save_post_schedule'));
 	} // end constructor
 	
 	/**
@@ -75,30 +76,34 @@ class PostTypeScheduler {
 	public function register_admin_scripts() {
 		wp_enqueue_script('jquery-ui','https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/jquery-ui.min.js');
 		wp_enqueue_script('json2', plugins_url('post-type-scheduler/js/json2.min.js'), array(), '1366391097');
-		wp_enqueue_script('post-type-scheduler-admin-script', plugins_url('post-type-scheduler/js/admin.js'), array('jquery-ui', 'json2'), '1366399308');
+		wp_enqueue_script('post-type-scheduler-admin-script', plugins_url('post-type-scheduler/js/admin.js'), array('jquery-ui', 'json2'), '1366404198');
 	} // end register_admin_scripts
 	
 	/*--------------------------------------------*
-	 * Core Functions
-	 *---------------------------------------------*/
+	* Core Functions
+	*---------------------------------------------*/
 	
-	 function register_meta_boxes() {
-		 $post_types = get_post_types(array('show_ui' => true), 'objects');
-		 foreach($post_types as $post_type) {
-			 add_meta_box(
-				 $post_type->name."-schedule",
-				 $post_type->labels->singular_name.__(" Schedule", "post-type-scheduler"),
-				 array($this, 'show_schedule_box'),
-				 $post_type->name,
-				 'normal',
-				 'high'
-			 );
-		 }
-	 } // end register_meta_boxes
+	function register_meta_boxes() {
+		$post_types = get_post_types(array('show_ui' => true), 'objects');
+		foreach($post_types as $post_type) {
+			add_meta_box(
+				$post_type->name."-schedule",
+				$post_type->labels->singular_name.__(" Schedule", "post-type-scheduler"),
+				array($this, 'show_schedule_box'),
+				$post_type->name,
+				'normal',
+				'high'
+			);
+		}
+	} // end register_meta_boxes
 
-	 function show_schedule_box() {
-		 include_once('views/post-schedule-metabox.php');
-	 } // end show_schedule_box
+	function show_schedule_box() {
+		include_once('views/post-schedule-metabox.php');
+	} // end show_schedule_box
+
+	function save_post_schedule($post_id) {
+		// do stuff here
+	} // end save_post_schedule
 } // end class
 
 $post_type_scheduler = new PostTypeScheduler();

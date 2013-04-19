@@ -1,17 +1,19 @@
-scheduler_json = {sched_array:[]};
+var scheduler_json = {sched_array:[]};
 function update_scheduler_json($root, update_type, index) {
-	update_type = typeof update_type !== 'undefined' ? update_type : 'insert'; 
+	var update_type = typeof update_type !== 'undefined' ? update_type : 'insert';
+	var $ = jQuery;
 	if(update_type == 'delete') {
 		if(scheduler_json.sched_array.length == 1) {
 			scheduler_json.sched_array = [];
+			$metabox.find('.post-scheduler-json').val('');
 		}
 		else {
 			scheduler_json.sched_array.splice(index, 1);
+			$metabox.find('.post-scheduler-json').val(JSON.stringify(scheduler_json));
 		}
-		$metabox.find('.temp').html(JSON.stringify(scheduler_json));
 	}
 	var schedule_type = $root.find('.schedule-type select option:selected').val();
-	$schedule_type_data = $root.find('.' + schedule_type);
+	var $schedule_type_data = $root.find('.' + schedule_type);
 	var schedule_type_data = '';
 	switch(schedule_type) {
 		case 'day': {
@@ -19,12 +21,12 @@ function update_scheduler_json($root, update_type, index) {
 			break;
 		}
 		case 'date': {
-			schedule_type_data = $schedule_type_data.find('.datepicker').datepicker('getDate');
+			schedule_type_data = $.datepicker.formatDate('mm-dd-yy', $schedule_type_data.find('.datepicker').datepicker('getDate'));
 			break;
 		}
 		case 'date-range': {
-			schedule_type_data = $schedule_type_data.find('.start-date .datepicker').datepicker('getDate')
-				+ ';' + $schedule_type_data.find('.stop-date .datepicker').datepicker('getDate');
+			schedule_type_data = $.datepicker.formatDate('mm-dd-yy', $schedule_type_data.find('.start-date .datepicker').datepicker('getDate'))
+				+ ';' + $.datepicker.formatDate('mm-dd-yy', $schedule_type_data.find('.stop-date .datepicker').datepicker('getDate'));
 			break;
 		}
 	}
@@ -48,7 +50,14 @@ function update_scheduler_json($root, update_type, index) {
 			"time": time
 		});
 	}
-	$metabox.find('.temp').html(JSON.stringify(scheduler_json));
+	if(update_type == 'update') {
+		scheduler_json.sched_array[index] = {
+			"schedule_type": schedule_type,
+			"schedule_type_data": schedule_type_data,
+			"time": time
+		};
+	}
+	$metabox.find('.post-scheduler-json').val(JSON.stringify(scheduler_json));
 }
 jQuery(document).ready(function($) {
 	var script_url = $('script[src*="post-type-scheduler/js/admin.js"]').attr('src');
@@ -64,22 +73,38 @@ jQuery(document).ready(function($) {
 		scheduler_html = data;
 		$metabox = $(document.getElementById('post-schedule-metabox'));
 		$metabox.find('.datepicker').each(function() {
-			$(this).datepicker();
+			$(this).datepicker({
+				minDate: 0,
+				onSelect: function(dateText, inst) {
+					var $this = $(document.getElementById(inst.id));
+					var $scheduler = $this.closest('.post-type-scheduler');
+					var index = $scheduler.data('id');
+					update_scheduler_json($scheduler, 'update', index);
+				}
+			});
 		});
 		$metabox.on('click', '.insert > button', function(e) {
 			e.preventDefault();
-			$this = $(e.target);
+			var $this = $(e.target);
 			var index = $metabox.find('.post-type-scheduler').length;
-			$scheduler = $(scheduler_html).attr('data-id', index).insertBefore($this);
+			var $scheduler = $(scheduler_html).attr('data-id', index).insertBefore($this);
 			$scheduler.find('.datepicker').each(function() {
-				$(this).datepicker();
+				$(this).datepicker({
+					minDate: 0,
+					onSelect: function(dateText, inst) {
+						var $this = $(document.getElementById(inst.id));
+						var $scheduler = $this.closest('.post-type-scheduler');
+						var index = $scheduler.data('id');
+						update_scheduler_json($scheduler, 'update', index);
+					}
+				});
 			});
 			update_scheduler_json($scheduler);
 		});
 		$metabox.on('click', '.delete > button', function(e) {
 			e.preventDefault();
-			$this = $(e.target);
-			$delete = $this.closest('.post-type-scheduler');
+			var $this = $(e.target);
+			var $delete = $this.closest('.post-type-scheduler');
 			var delete_id = $delete.data('id');
 			update_scheduler_json($delete, 'delete', delete_id);	
 			$delete.nextAll().each(function() {
@@ -89,14 +114,15 @@ jQuery(document).ready(function($) {
 			$delete.remove();
 		});
 		$metabox.on('change', '.schedule-type select', function(e){
-			$this = $(e.target);
-			$root = $this.closest('.post-type-scheduler');
-			index = $root.data('id');
-			select_value = '';
+			var $this = $(e.target);
+			var $scheduler = $this.closest('.post-type-scheduler');
+			var index = $scheduler.data('id');
+			var select_value = '';
 			$this.find('option:selected').each(function() {
 				select_value += this.value;
 			});
-			$root.find('.date-range, .date, .day').hide().filter('.' + select_value).show();
+			$scheduler.find('.date-range, .date, .day').hide().filter('.' + select_value).show();
+			update_scheduler_json($scheduler, 'update', index);
 		});
 	});
 });

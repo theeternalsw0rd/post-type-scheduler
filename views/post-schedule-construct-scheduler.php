@@ -29,8 +29,8 @@
 			<header>Start Date</header>
 			<div class="datepicker"></div>
 		</div>
-		<div class="end-date">
-			<header>End Date</header>
+		<div class="stop-date">
+			<header>Stop Date</header>
 			<div class="datepicker"></div>
 		</div>
 	</div>
