@@ -102,7 +102,7 @@ class PostTypeScheduler {
 	} // end show_schedule_box
 
 	function save_post_schedule($post_id) {
-		// do stuff here
+		include_once('controller/save-post-schedule.php');
 	} // end save_post_schedule
 } // end class
 
