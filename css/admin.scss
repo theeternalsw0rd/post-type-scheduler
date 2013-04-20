@@ -30,6 +30,15 @@ $horz_padding: 1em;
 			min-width: 250px;
 		}
 	}
+	div[class="day hide"] {
+		display: none;
+	}
+	div[class="date-range show"] {
+		display: block;
+	}
+	div[class="date show"] {
+		display: block;
+	}
 	.date-range {
 		display: none;
 	}

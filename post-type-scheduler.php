@@ -66,7 +66,7 @@ class PostTypeScheduler {
 	 * Registers and enqueues admin-specific styles.
 	 */
 	public function register_admin_styles() {
-		wp_enqueue_style('post-type-scheduler-admin-styles', plugins_url('post-type-scheduler/css/admin.css'), array(), '1366319853');	
+		wp_enqueue_style('post-type-scheduler-admin-styles', plugins_url('post-type-scheduler/css/admin.css'), array(), '1366420458');	
 		wp_enqueue_style('jquery-ui', plugins_url('post-type-scheduler/css/jquery-ui/jquery-ui-1.10.2.custom.min.css'));
 	} // end register_admin_styles
 
@@ -76,12 +76,12 @@ class PostTypeScheduler {
 	public function register_admin_scripts() {
 		wp_enqueue_script('jquery-ui','https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/jquery-ui.min.js');
 		wp_enqueue_script('json2', plugins_url('post-type-scheduler/js/json2.min.js'), array(), '1366391097');
-		wp_enqueue_script('post-type-scheduler-admin-script', plugins_url('post-type-scheduler/js/admin.js'), array('jquery-ui', 'json2'), '1366404198');
+		wp_enqueue_script('post-type-scheduler-admin-script', plugins_url('post-type-scheduler/js/admin.js'), array('jquery-ui', 'json2'), '1366423997');
 	} // end register_admin_scripts
 	
 	/*--------------------------------------------*
-	* Core Functions
-	*---------------------------------------------*/
+	 * Core Functions
+	 *---------------------------------------------*/
 	
 	function register_meta_boxes() {
 		$post_types = get_post_types(array('show_ui' => true), 'objects');

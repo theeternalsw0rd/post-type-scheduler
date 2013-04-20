@@ -69,11 +69,14 @@ jQuery(document).ready(function($) {
 	for(var i=0;i<script_url_pieces.length;i++) {
 		plugin_base_url += script_url_pieces[i] + '/';
 	}
-	$.get(plugin_base_url + 'views/post-schedule-construct-scheduler.php', function(data) {
+	$.get(plugin_base_url + 'controller/ajax-load-scheduler.php', function(data) {
 		scheduler_html = data;
 		$metabox = $(document.getElementById('post-schedule-metabox'));
 		$metabox.find('.datepicker').each(function() {
-			$(this).datepicker({
+			var $this = $(this);
+			var data_date = $this.data('date');
+			var date = data_date ? new Date(Date.parse(data_date.replace(/-/g, '/'))) : new Date();
+			$this.datepicker({
 				minDate: 0,
 				onSelect: function(dateText, inst) {
 					var $this = $(document.getElementById(inst.id));
@@ -82,14 +85,20 @@ jQuery(document).ready(function($) {
 					update_scheduler_json($scheduler, 'update', index);
 				}
 			});
+			$this.datepicker('setDate', date);
 		});
+		var scheduler_json_string = $metabox.find('.post-scheduler-json').val();
+		if(scheduler_json_string) {
+			scheduler_json = $.parseJSON(scheduler_json_string);
+		}
 		$metabox.on('click', '.insert > button', function(e) {
 			e.preventDefault();
 			var $this = $(e.target);
 			var index = $metabox.find('.post-type-scheduler').length;
 			var $scheduler = $(scheduler_html).attr('data-id', index).insertBefore($this.parent());
 			$scheduler.find('.datepicker').each(function() {
-				$(this).datepicker({
+				var $this = $(this);
+				$this.datepicker({
 					minDate: 0,
 					onSelect: function(dateText, inst) {
 						var $this = $(document.getElementById(inst.id));
@@ -107,7 +116,7 @@ jQuery(document).ready(function($) {
 			var $delete = $this.closest('.post-type-scheduler');
 			var delete_id = $delete.data('id');
 			update_scheduler_json($delete, 'delete', delete_id);	
-			$delete.nextAll().each(function() {
+			$delete.nextAll('.post-type-scheduler').each(function() {
 				$this = $(this);
 				$this.attr('data-id', $this.data('id') - 1);
 			});
